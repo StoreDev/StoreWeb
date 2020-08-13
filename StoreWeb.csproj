@@ -8,4 +8,8 @@
     <PackageReference Include="StoreLib" Version="1.2.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="content\" />
+  </ItemGroup>
+
 </Project>
