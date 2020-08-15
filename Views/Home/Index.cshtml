@@ -3,6 +3,33 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to storeweb</h1>
+    <p>An alternative to rg-adguard powered by <a href="https://www.github.com/storedev/storelib">Storelib</a>.</p>
+    <form action="/api/PackageRequests" method="get">
+        <label for="inputform">Type:</label><br>
+        <select name="inputform">
+            <option value="url">URL (link)</option>
+            <option value="productid">Product Id</option>
+            <option value="pfn">Package Family Name</option>
+            <option value="cid">Content Id</option>
+            <option value="xti">Xbox Title Id</option>
+            <option value="lxpi">Legacy Xbox Product ID</option>
+            <option value="lwspi">Legacy Windows Store Product Id</option>
+            <option value="lwppi">Legacy Windows Phone Product Id</option>
+        </select><br>
+        <label for="productinfo">ID:</label><br>
+        <input type="text" id="Id" name="Id"><br>
+        <label for="environment">Environment:</label><br>
+        <select name="environment">
+            <option value="Production">Production</option>
+            <option value="Int">Int</option>
+            <option value="Xbox">Xbox</option>
+            <option value="XboxInt">Xbox Int</option>
+            <option value="Dev">Dev</option>
+            <option value="OneP">One P</option>
+            <option value="OnePInt">One P Int</option>
+        </select><br>
+        <label for="environment">Submit:</label><br>
+        <input type="submit" value="✔" />
+    </form>
 </div>
