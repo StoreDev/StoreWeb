@@ -19,18 +19,18 @@ namespace StoreWeb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PackageRequestsController : ControllerBase
+    public class PackagesController : ControllerBase
     {
         private readonly StoreWebContext _context;
 
-        public PackageRequestsController(StoreWebContext context)
+        public PackagesController(StoreWebContext context)
         {
             _context = context;
         }
 
-        // GET: api/PackageRequests
+        // GET: api/Packages
         [HttpGet]
-        public async Task<string> GetPackageRequest(
+        public async Task<string> GetPackages(
             /*Mandatory get parameter*/ string Id,
             string Idtype="url",
             string Environment="Production",
@@ -38,7 +38,7 @@ namespace StoreWeb.Controllers
             string Lang = "en",
             string Msatoken=null)
         {
-            PackageRequest packagerequest = new PackageRequest()
+            Packages packagerequest = new Packages()
             {
                 id = Id,
                 environment = (DCatEndpoint)Enum.Parse(typeof(DCatEndpoint), Environment),
@@ -73,6 +73,9 @@ namespace StoreWeb.Controllers
                 case "lwppi":
                     packagerequest.type = IdentiferType.LegacyWindowsPhoneProductID;
                     break;
+                default:
+                    packagerequest.type = (IdentiferType)Enum.Parse(typeof(IdentiferType),Idtype);
+                    break;
             }
             /*switch (Environment)
             {
@@ -106,12 +109,12 @@ namespace StoreWeb.Controllers
             {
                 await dcat.QueryDCATAsync(packagerequest.id, packagerequest.type);
             }
-            List<Packages> packages = new List<Packages>();
+            List<PackageInfo> packages = new List<PackageInfo>();
             var productpackages = await dcat.GetPackagesForProductAsync();
             //iterate through all packages
             foreach (PackageInstance package in productpackages)
             {
-                packages.Add(new Packages()
+                packages.Add(new PackageInfo()
                 {
                     packagedownloadurl = package.PackageUri.ToString(),
                     packagemoniker = package.PackageMoniker
@@ -122,7 +125,7 @@ namespace StoreWeb.Controllers
                 foreach (var Package in dcat.ProductListing.Product.DisplaySkuAvailabilities[0].Sku.Properties.Packages[0].PackageDownloadUris)
                 {
                     Uri PackageURL = new Uri(Package.Uri);
-                    packages.Add(new Packages()
+                    packages.Add(new PackageInfo()
                     {
                         packagedownloadurl = Package.Uri,
                         packagemoniker = PackageURL.Segments[PackageURL.Segments.Length - 1]

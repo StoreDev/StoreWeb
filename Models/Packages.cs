@@ -8,7 +8,7 @@ using StoreLib.Services;
 
 namespace StoreWeb.Models
 {
-    public class PackageRequest
+    public class Packages
     {
         public IdentiferType type { get; set; }
         public string id { get; set; }
@@ -18,7 +18,7 @@ namespace StoreWeb.Models
         public string msatoken { get; set; }
     }
 
-    public class Packages
+    public class PackageInfo
     {
         public string packagemoniker { get; set; }
         public string packagedownloadurl { get; set; }

@@ -14,6 +14,6 @@ namespace StoreWeb.Data
         {
         }
 
-        public DbSet<StoreWeb.Models.PackageRequest> PackageRequest { get; set; }
+        public DbSet<StoreWeb.Models.Packages> PackageRequest { get; set; }
     }
 }
