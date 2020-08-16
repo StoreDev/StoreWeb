@@ -2,10 +2,34 @@
     ViewData["Title"] = "Home";
 }
 
+<script>
+    jQuery(document).ready(function () {
+
+        jQuery('.ajaxform').submit(function () {
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function (response) {
+                    var json = JSON.parse(response);
+                    for (var i = 0; i < json.length; i++) {
+                        var obj = json[i];
+                        console.log(obj.packagemoniker);
+                        console.log(obj.packagedownloadurl);
+                    }
+                }
+            });
+
+            return false;
+        });
+
+    });
+</script>
 <div class="text-center">
     <h1 class="display-4">Welcome to storeweb</h1>
     <p>An alternative to rg-adguard powered by <a href="https://www.github.com/storedev/storelib">Storelib</a>.</p>
-    <form action="/api/PackageRequests" method="get">
+    <form action="/api/Packages" method="get" class='ajaxform'>
         <label for="inputform">Type:</label><br>
         <select name="inputform">
             <option value="url">URL (link)</option>
