@@ -51,6 +51,11 @@ button.accept-policy {
   line-height: inherit;
 }
 
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

@@ -14,6 +14,9 @@ using StoreLib.Services;
 using StoreLib.Utilities;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using System.Net.Mime;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace StoreWeb.Controllers
 {
@@ -21,6 +24,8 @@ namespace StoreWeb.Controllers
     [ApiController]
     public class PackagesController : ControllerBase
     {
+        private static readonly MSHttpClient _httpClient = new MSHttpClient();
+
         private readonly StoreWebContext _context;
 
         public PackagesController(StoreWebContext context)
@@ -114,22 +119,60 @@ namespace StoreWeb.Controllers
             //iterate through all packages
             foreach (PackageInstance package in productpackages)
             {
-                packages.Add(new PackageInfo()
+                var temppackageinfo = new PackageInfo()
                 {
                     packagedownloadurl = package.PackageUri.ToString(),
                     packagemoniker = package.PackageMoniker
-                });
+                };
+                HttpRequestMessage httpRequest = new HttpRequestMessage();
+                httpRequest.RequestUri = package.PackageUri;
+                //httpRequest.Method = HttpMethod.Get;
+                httpRequest.Method = HttpMethod.Head;
+                httpRequest.Headers.Add("Connection", "Keep-Alive");
+                httpRequest.Headers.Add("Accept", "*/*");
+                //httpRequest.Headers.Add("Range", "bytes=0-1");
+                httpRequest.Headers.Add("User-Agent", "Microsoft-Delivery-Optimization/10.0");
+                HttpResponseMessage httpResponse = await _httpClient.SendAsync(httpRequest, new System.Threading.CancellationToken());
+                HttpHeaders headers = httpResponse.Content.Headers;
+                IEnumerable<string> values;
+                if (headers.TryGetValues("Content-Disposition", out values))
+                {
+                    ContentDisposition contentDisposition = new ContentDisposition(values.First());
+                    temppackageinfo.packagefilename = contentDisposition.FileName;
+                }
+                if (headers.TryGetValues("Content-Length", out values))
+                {
+                    temppackageinfo.packagefilesize = int.Parse(values.FirstOrDefault());
+                }
+                packages.Add(temppackageinfo);
             }
                 if (!object.ReferenceEquals(dcat.ProductListing.Product.DisplaySkuAvailabilities[0].Sku.Properties.Packages[0].PackageDownloadUris, null))
             {
                 foreach (var Package in dcat.ProductListing.Product.DisplaySkuAvailabilities[0].Sku.Properties.Packages[0].PackageDownloadUris)
                 {
                     Uri PackageURL = new Uri(Package.Uri);
-                    packages.Add(new PackageInfo()
+                    PackageInfo temppackageinfo = new PackageInfo()
                     {
                         packagedownloadurl = Package.Uri,
-                        packagemoniker = PackageURL.Segments[PackageURL.Segments.Length - 1]
-                    });   
+                        packagemoniker = PackageURL.Segments[PackageURL.Segments.Length - 1],
+                        packagefilename = PackageURL.Segments[PackageURL.Segments.Length - 1]
+                    };
+                    HttpRequestMessage httpRequest = new HttpRequestMessage();
+                    httpRequest.RequestUri = PackageURL;
+                    //httpRequest.Method = HttpMethod.Get;
+                    httpRequest.Method = HttpMethod.Head;
+                    httpRequest.Headers.Add("Connection", "Keep-Alive");
+                    httpRequest.Headers.Add("Accept", "*/*");
+                    //httpRequest.Headers.Add("Range", "bytes=0-1");
+                    httpRequest.Headers.Add("User-Agent", "Microsoft-Delivery-Optimization/10.0");
+                    HttpResponseMessage httpResponse = await _httpClient.SendAsync(httpRequest, new System.Threading.CancellationToken());
+                    HttpHeaders headers = httpResponse.Content.Headers;
+                    IEnumerable<string> values;
+                    if (headers.TryGetValues("Content-Length", out values))
+                    {
+                        temppackageinfo.packagefilesize = int.Parse(values.FirstOrDefault());
+                    }
+                    packages.Add(temppackageinfo);   
                 }
             }
             return JsonConvert.SerializeObject(packages);
