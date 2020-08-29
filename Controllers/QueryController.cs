@@ -79,7 +79,7 @@ namespace StoreWeb.Controllers
             if (dcat.IsFound) {
                 if (dcat.ProductListing.Product != null) //One day ill fix the mess that is the StoreLib JSON, one day.
                 {
-                    dcat.ProductListing.Products = new();
+                    dcat.ProductListing.Products = new List<Product>();
                     dcat.ProductListing.Products.Add(dcat.ProductListing.Product);
                 }
                 if (dcat.ProductListing.Product.LocalizedProperties[0].ProductDescription.Length < 1023)
