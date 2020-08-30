@@ -23,6 +23,6 @@ namespace StoreWeb.Models
         public string packagemoniker { get; set; }
         public string packagedownloadurl { get; set; }
         public string packagefilename { get; set; }
-        public int packagefilesize { get; set; }
+        public long packagefilesize { get; set; }
     }
 }

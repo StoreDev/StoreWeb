@@ -142,7 +142,7 @@ namespace StoreWeb.Controllers
                 }
                 if (headers.TryGetValues("Content-Length", out values))
                 {
-                    temppackageinfo.packagefilesize = int.Parse(values.FirstOrDefault());
+                    temppackageinfo.packagefilesize = Convert.ToInt64(values.FirstOrDefault());
                 }
                 packages.Add(temppackageinfo);
             }
@@ -170,7 +170,8 @@ namespace StoreWeb.Controllers
                     IEnumerable<string> values;
                     if (headers.TryGetValues("Content-Length", out values))
                     {
-                        temppackageinfo.packagefilesize = int.Parse(values.FirstOrDefault());
+                        System.Diagnostics.Debug.WriteLine(values.FirstOrDefault());
+                        temppackageinfo.packagefilesize = Convert.ToInt64(values.FirstOrDefault());
                     }
                     packages.Add(temppackageinfo);   
                 }
