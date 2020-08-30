@@ -49,7 +49,7 @@ namespace StoreWeb.Controllers
             {
                 if (dcat.ProductListing.Product != null) //One day ill fix the mess that is the StoreLib JSON, one day. Yeah mate just like how one day i'll learn how to fly
                 {
-                    dcat.ProductListing.Products = new();
+                    dcat.ProductListing.Products = new List<Product>();
                     dcat.ProductListing.Products.Add(dcat.ProductListing.Product);
                 }
                 Dictionary<string, string> appinfo = new Dictionary<string, string>();
