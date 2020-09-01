@@ -24,7 +24,10 @@ namespace StoreWeb
                        .UseStartup<Startup>()
                        .UseKestrel(options =>
                         {
-                            options.ListenAnyIP(Int32.Parse(System.Environment.GetEnvironmentVariable("PORT")));
+                            // Get PORT for Heroku deployment
+                            var port = System.Environment.GetEnvironmentVariable("PORT");
+                            if (!String.IsNullOrWhiteSpace(port))
+                                options.ListenAnyIP(Int32.Parse(port));
                         });
                 });
     }
