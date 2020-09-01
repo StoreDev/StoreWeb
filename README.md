@@ -9,6 +9,8 @@
 
 StoreWeb is a webapp that makes use of [StoreLib](https://github.com/StoreDev/StoreLib).
 
+Find an instance of the service here: https://xwebstore.herokuapp.com/
+
 
 ## Usage
 
