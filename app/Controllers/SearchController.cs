@@ -30,11 +30,11 @@ namespace StoreWeb.Controllers
         {
             Search searchrequest = new Search()
             {
-                query=query,
-                devicefamily = (DeviceFamily)Enum.Parse(typeof(DeviceFamily), family),
-                environment = (DCatEndpoint)Enum.Parse(typeof(DCatEndpoint), Environment),
-                lang = (Lang)Enum.Parse(typeof(Lang), Lang),
-                market = (Market)Enum.Parse(typeof(Market), Market),
+                query = query,
+                devicefamily = (DeviceFamily)Enum.Parse(typeof(DeviceFamily), family, true),
+                environment = (DCatEndpoint)Enum.Parse(typeof(DCatEndpoint), Environment, true),
+                lang = (Lang)Enum.Parse(typeof(Lang), Lang, true),
+                market = (Market)Enum.Parse(typeof(Market), Market, true),
                 msatoken = Msatoken
             };
             DisplayCatalogHandler dcat = new DisplayCatalogHandler(searchrequest.environment, new Locale(searchrequest.market, searchrequest.lang, true));
