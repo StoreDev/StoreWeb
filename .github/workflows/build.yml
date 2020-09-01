@@ -1,0 +1,52 @@
+name: build
+
+on: ['push', 'pull_request'] 
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.x'
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: storeweb-${{ github.sha }}.zip
+        path: app/bin/Release/netcoreapp3.1
+    - name: Get the version tag
+      id: get_tag
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+    - name: Generate zip for release
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+      run: zip -j Storeweb-${{ steps.get_tag.outputs.VERSION }}.zip ./app/bin/Release/netcoreapp3.1/*
+    - name: create release
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.get_tag.outputs.VERSION }}
+        release_name: Release ${{ steps.get_tag.outputs.VERSION }}
+        draft: false
+        prerelease: false
+    - name: Upload Release Asset
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ./Storeweb-${{ steps.get_tag.outputs.VERSION }}.zip
+        asset_name: Storeweb-${{ steps.get_tag.outputs.VERSION }}.zip
+        asset_content_type: application/zip

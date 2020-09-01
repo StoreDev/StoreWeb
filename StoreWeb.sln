@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30323.103
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreWeb", "StoreWeb.csproj", "{81E59434-CE68-48A1-B0E7-7A07A886A742}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreWeb", "app/StoreWeb.csproj", "{81E59434-CE68-48A1-B0E7-7A07A886A742}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
