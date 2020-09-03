@@ -22,7 +22,7 @@ namespace StoreWeb.Controllers
         [HttpGet]
         public async Task<string> Get(
             /*Mandatory get parameter*/ string query,
-            /*Mandatory get parameter*/ string devicetoken,
+            /*Mandatory get parameter*/// string devicetoken,
             string Environment = "Production",
             string Market = "US",
             string Lang = "en",
@@ -52,15 +52,27 @@ namespace StoreWeb.Controllers
                     dcat.ProductListing.Products = new List<Product>();
                     dcat.ProductListing.Products.Add(dcat.ProductListing.Product);
                 }
-                Dictionary<string, string> appinfo = new Dictionary<string, string>();
+                List<AlternateAppIDs> appinfo = new List<AlternateAppIDs>();
                 foreach (AlternateId PID in dcat.ProductListing.Products[0].AlternateIds) //Dynamicly add any other ID(s) that might be present rather than doing a ton of null checks.
                 {
-                    appinfo.Add(PID.IdType, PID.Value);
+                    appinfo.Add(new AlternateAppIDs()
+                    {
+                        IDType = PID.IdType,
+                        Value = PID.Value
+                    });
                 }
-                appinfo.Add("ProductID", dcat.ProductListing.Products[0].ProductId);
+                appinfo.Add(new AlternateAppIDs()
+                {
+                    IDType = "ProductID",
+                    Value = dcat.ProductListing.Products[0].ProductId
+                });
                 try
                 {
-                    appinfo.Add("PackageFamilyName", dcat.ProductListing.Products[0].Properties.PackageFamilyName);
+                    appinfo.Add(new AlternateAppIDs()
+                    {
+                        IDType = "PackageFamilyName",
+                        Value = dcat.ProductListing.Products[0].Properties.PackageFamilyName
+                    });
                 }
                 catch (Exception ex) { Console.WriteLine(ex); };
                 return JsonConvert.SerializeObject(appinfo);
