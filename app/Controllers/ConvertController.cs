@@ -22,7 +22,7 @@ namespace StoreWeb.Controllers
         [HttpGet]
         public async Task<string> Get(
             /*Mandatory get parameter*/ string query,
-            /*Mandatory get parameter*/ string devicetoken,
+            string Idtype = "url",
             string Environment = "Production",
             string Market = "US",
             string Lang = "en",
@@ -36,6 +36,37 @@ namespace StoreWeb.Controllers
                 market = (Market)Enum.Parse(typeof(Market), Market),
                 msatoken = Msatoken
             };
+            switch (Idtype)
+            {
+                case "url":
+                    packagerequest.id = new Regex(@"[a-zA-Z0-9]{12}").Matches(packagerequest.id)[0].Value;
+                    packagerequest.type = IdentiferType.ProductID;
+                    break;
+                case "productid":
+                    packagerequest.type = IdentiferType.ProductID;
+                    break;
+                case "pfn":
+                    packagerequest.type = IdentiferType.PackageFamilyName;
+                    break;
+                case "cid":
+                    packagerequest.type = IdentiferType.ContentID;
+                    break;
+                case "xti":
+                    packagerequest.type = IdentiferType.XboxTitleID;
+                    break;
+                case "lxpi":
+                    packagerequest.type = IdentiferType.LegacyXboxProductID;
+                    break;
+                case "lwspi":
+                    packagerequest.type = IdentiferType.LegacyWindowsStoreProductID;
+                    break;
+                case "lwppi":
+                    packagerequest.type = IdentiferType.LegacyWindowsPhoneProductID;
+                    break;
+                default:
+                    packagerequest.type = (IdentiferType)Enum.Parse(typeof(IdentiferType), Idtype);
+                    break;
+            }
             DisplayCatalogHandler dcat = new DisplayCatalogHandler(packagerequest.environment, new Locale(packagerequest.market, packagerequest.lang, true));
             if (!string.IsNullOrWhiteSpace(packagerequest.msatoken))
             {
@@ -52,15 +83,27 @@ namespace StoreWeb.Controllers
                     dcat.ProductListing.Products = new List<Product>();
                     dcat.ProductListing.Products.Add(dcat.ProductListing.Product);
                 }
-                Dictionary<string, string> appinfo = new Dictionary<string, string>();
+                List<AlternateAppIDs> appinfo = new List<AlternateAppIDs>();
                 foreach (AlternateId PID in dcat.ProductListing.Products[0].AlternateIds) //Dynamicly add any other ID(s) that might be present rather than doing a ton of null checks.
                 {
-                    appinfo.Add(PID.IdType, PID.Value);
+                    appinfo.Add(new AlternateAppIDs()
+                    {
+                        IDType = PID.IdType,
+                        Value = PID.Value
+                    });
                 }
-                appinfo.Add("ProductID", dcat.ProductListing.Products[0].ProductId);
+                appinfo.Add(new AlternateAppIDs()
+                {
+                    IDType = "ProductID",
+                    Value = dcat.ProductListing.Products[0].ProductId
+                });
                 try
                 {
-                    appinfo.Add("PackageFamilyName", dcat.ProductListing.Products[0].Properties.PackageFamilyName);
+                    appinfo.Add(new AlternateAppIDs()
+                    {
+                        IDType = "PackageFamilyName",
+                        Value = dcat.ProductListing.Products[0].Properties.PackageFamilyName
+                    });
                 }
                 catch (Exception ex) { Console.WriteLine(ex); };
                 return JsonConvert.SerializeObject(appinfo);
