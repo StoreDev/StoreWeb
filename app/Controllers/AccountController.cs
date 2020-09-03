@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -14,14 +15,20 @@ namespace StoreWeb.Controllers
         [HttpGet]
         public IActionResult Login(string returnUrl = "/")
         {
-            return Challenge(new AuthenticationProperties() { RedirectUri = returnUrl });
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return Challenge(new AuthenticationProperties() { RedirectUri = returnUrl });
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
-        public IActionResult Logout(string returnUrl = "/")
+        public async Task<IActionResult> Logout()
         {
-            SignOut();
-            return Redirect("/");
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
