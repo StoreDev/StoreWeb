@@ -23,6 +23,7 @@ using System.Diagnostics;
 using XboxWebApi;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace StoreWeb
 {
@@ -97,6 +98,11 @@ namespace StoreWeb
                         }
                     }
                 };
+            });
+
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedProto;
             });
 
             services.AddDbContext<StoreWebContext>(options =>
