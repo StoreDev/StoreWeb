@@ -21,14 +21,7 @@ namespace StoreWeb
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
-                       .UseStartup<Startup>()
-                       .UseKestrel(options =>
-                        {
-                            // Get PORT for Heroku deployment
-                            var port = System.Environment.GetEnvironmentVariable("PORT");
-                            if (!String.IsNullOrWhiteSpace(port))
-                                options.ListenAnyIP(Int32.Parse(port));
-                        });
+                       .UseStartup<Startup>();
                 });
     }
 }
