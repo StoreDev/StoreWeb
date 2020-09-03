@@ -22,7 +22,7 @@ namespace StoreWeb.Controllers
         [HttpGet]
         public async Task<string> Get(
             /*Mandatory get parameter*/ string query,
-            /*Mandatory get parameter*/// string devicetoken,
+            string Idtype = "url",
             string Environment = "Production",
             string Market = "US",
             string Lang = "en",
@@ -36,6 +36,37 @@ namespace StoreWeb.Controllers
                 market = (Market)Enum.Parse(typeof(Market), Market),
                 msatoken = Msatoken
             };
+            switch (Idtype)
+            {
+                case "url":
+                    packagerequest.id = new Regex(@"[a-zA-Z0-9]{12}").Matches(packagerequest.id)[0].Value;
+                    packagerequest.type = IdentiferType.ProductID;
+                    break;
+                case "productid":
+                    packagerequest.type = IdentiferType.ProductID;
+                    break;
+                case "pfn":
+                    packagerequest.type = IdentiferType.PackageFamilyName;
+                    break;
+                case "cid":
+                    packagerequest.type = IdentiferType.ContentID;
+                    break;
+                case "xti":
+                    packagerequest.type = IdentiferType.XboxTitleID;
+                    break;
+                case "lxpi":
+                    packagerequest.type = IdentiferType.LegacyXboxProductID;
+                    break;
+                case "lwspi":
+                    packagerequest.type = IdentiferType.LegacyWindowsStoreProductID;
+                    break;
+                case "lwppi":
+                    packagerequest.type = IdentiferType.LegacyWindowsPhoneProductID;
+                    break;
+                default:
+                    packagerequest.type = (IdentiferType)Enum.Parse(typeof(IdentiferType), Idtype);
+                    break;
+            }
             DisplayCatalogHandler dcat = new DisplayCatalogHandler(packagerequest.environment, new Locale(packagerequest.market, packagerequest.lang, true));
             if (!string.IsNullOrWhiteSpace(packagerequest.msatoken))
             {
