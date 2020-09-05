@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Convert";
+}
+<script>
+    jQuery(document).ready(function () {
+
+        jQuery('.ajaxform').submit(function () {
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function (response) {
+                    var json = JSON.parse(response);
+                    var table = document.getElementById("table");
+                    for (var i = 0; i < json.length; i++) {
+                        var obj = json[i];
+                        var row = table.insertRow(table.rows.length);
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        cell1.innerHTML = obj.IDType;
+                        cell2.innerHTML = obj.Value;
+                    }
+                    document.getElementById("table").style.display = null;
+                    
+                }
+            });
+
+            return false;
+        });
+
+    });
+</script>
+<div class="text-center">
+    <h1 class="display-4">Welcome to storeweb</h1>
+    <p>An alternative to rg-adguard powered by <a href="https://www.github.com/storedev/storelib">Storelib</a>.</p>
+    <form action="/api/Convert" method="get" class='ajaxform'>
+        <label for="inputform">Type:</label><br>
+        <select name="inputform">
+            <option value="url">URL (link)</option>
+            <option value="productid">Product Id</option>
+            <option value="pfn">Package Family Name</option>
+            <option value="cid">Content Id</option>
+            <option value="xti">Xbox Title Id</option>
+            <option value="lxpi">Legacy Xbox Product ID</option>
+            <option value="lwspi">Legacy Windows Store Product Id</option>
+            <option value="lwppi">Legacy Windows Phone Product Id</option>
+        </select><br>
+        <label for="productinfo">ID:</label><br>
+        <input type="text" id="Id" name="Id"><br>
+        <label for="submit">Submit:</label><br>
+        <input type="submit" value="✔" />
+    </form>
+    <br>
+    <table style="width:100%; display:none" id="table">
+        <tr>
+            <th>Type</th>
+            <th>Value</th>
+    </table>
+</div>
