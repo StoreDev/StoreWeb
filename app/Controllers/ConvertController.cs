@@ -21,7 +21,7 @@ namespace StoreWeb.Controllers
         // GET: api/<ConvertController>
         [HttpGet]
         public async Task<string> Get(
-            /*Mandatory get parameter*/ string query,
+            /*Mandatory get parameter*/ string id,
             string Idtype = "url",
             string Environment = "Production",
             string Market = "US",
@@ -30,7 +30,7 @@ namespace StoreWeb.Controllers
         {
             Packages packagerequest = new Packages()
             {
-                id = query,
+                id = id,
                 environment = (DCatEndpoint)Enum.Parse(typeof(DCatEndpoint), Environment),
                 lang = (Lang)Enum.Parse(typeof(Lang), Lang),
                 market = (Market)Enum.Parse(typeof(Market), Market),

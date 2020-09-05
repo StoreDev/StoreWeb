@@ -82,30 +82,6 @@ namespace StoreWeb.Controllers
                     packagerequest.type = (IdentiferType)Enum.Parse(typeof(IdentiferType),Idtype);
                     break;
             }
-            /*switch (Environment)
-            {
-                case "Production":
-                    packagerequest.environment = DCatEndpoint.Production;
-                    break;
-                case "Int":
-                    packagerequest.environment = DCatEndpoint.Int;
-                    break;
-                case "Xbox":
-                    packagerequest.environment = DCatEndpoint.Xbox;
-                    break;
-                case "XboxInt":
-                    packagerequest.environment = DCatEndpoint.XboxInt;
-                    break;
-                case "Dev":
-                    packagerequest.environment = DCatEndpoint.Dev;
-                    break;
-                case "OneP":
-                    packagerequest.environment = DCatEndpoint.OneP;
-                    break;
-                case "OnePInt":
-                    packagerequest.environment = DCatEndpoint.OnePInt;
-                    break;
-            }*/
             DisplayCatalogHandler dcat = new DisplayCatalogHandler(packagerequest.environment, new Locale(packagerequest.market, packagerequest.lang, true));
             if (!string.IsNullOrWhiteSpace(packagerequest.msatoken)) {
                 await dcat.QueryDCATAsync(packagerequest.id, packagerequest.type, packagerequest.msatoken);
