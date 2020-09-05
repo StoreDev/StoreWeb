@@ -32,6 +32,12 @@ namespace StoreWeb.Controllers
         {
             return View();
         }
+        
+        public IActionResult Query()
+        {
+            return View();
+        }
+
 
         public IActionResult Privacy()
         {

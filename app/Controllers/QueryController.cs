@@ -75,7 +75,7 @@ namespace StoreWeb.Controllers
             {
                 await dcat.QueryDCATAsync(packagerequest.id, packagerequest.type);
             }
-            Dictionary<string, string> productinfo = new Dictionary<string, string>();
+            Dictionary<string,string> productinfo = new Dictionary<string, string>();
             if (dcat.IsFound) {
                 if (dcat.ProductListing.Product != null) //One day ill fix the mess that is the StoreLib JSON, one day.
                 {
@@ -89,31 +89,31 @@ namespace StoreWeb.Controllers
                 }
                 else
                 {
-                    productinfo.Add("Description:", dcat.ProductListing.Product.LocalizedProperties[0].ProductDescription.Substring(0, 1023));
+                    productinfo.Add("Description", dcat.ProductListing.Product.LocalizedProperties[0].ProductDescription.Substring(0, 1023));
                 }
-                productinfo.Add("Rating:", $"{dcat.ProductListing.Product.MarketProperties[0].UsageData[0].AverageRating} Stars");
-                productinfo.Add("Last Modified:", dcat.ProductListing.Product.MarketProperties[0].OriginalReleaseDate.ToString());
-                productinfo.Add("Product Type:", dcat.ProductListing.Product.ProductType);
-                productinfo.Add("Is a Microsoft Listing:", dcat.ProductListing.Product.IsMicrosoftProduct.ToString());
+                productinfo.Add("Rating", $"{dcat.ProductListing.Product.MarketProperties[0].UsageData[0].AverageRating}");
+                productinfo.Add("Last Modified", dcat.ProductListing.Product.MarketProperties[0].OriginalReleaseDate.ToString());
+                productinfo.Add("Product Type", dcat.ProductListing.Product.ProductType);
+                productinfo.Add("Is a Microsoft Listing", dcat.ProductListing.Product.IsMicrosoftProduct.ToString());
                 if (dcat.ProductListing.Product.ValidationData != null)
                 {
-                    productinfo.Add("Validation Info:", $"`{dcat.ProductListing.Product.ValidationData.RevisionId}`");
+                    productinfo.Add("Validation Info", $"`{dcat.ProductListing.Product.ValidationData.RevisionId}`");
                 }
                 if (dcat.ProductListing.Product.SandboxID != null)
                 {
-                    productinfo.Add("SandBoxID:", dcat.ProductListing.Product.SandboxID);
+                    productinfo.Add("SandBoxID", dcat.ProductListing.Product.SandboxID);
                 }
                 foreach (AlternateId PID in dcat.ProductListing.Product.AlternateIds) //Dynamicly add any other ID(s) that might be present rather than doing a ton of null checks.
                 {
-                    productinfo.Add($"{PID.IdType}:", PID.Value);
+                    productinfo.Add($"{PID.IdType}", PID.Value);
                 }
                 if (dcat.ProductListing.Product.DisplaySkuAvailabilities[0].Sku.Properties.FulfillmentData != null)
                 {
                     if (dcat.ProductListing.Product.DisplaySkuAvailabilities[0].Sku.Properties.Packages[0].KeyId != null)
                     {
-                        productinfo.Add("EAppx Key ID:", dcat.ProductListing.Product.DisplaySkuAvailabilities[0].Sku.Properties.Packages[0].KeyId);
+                        productinfo.Add("EAppx Key ID", dcat.ProductListing.Product.DisplaySkuAvailabilities[0].Sku.Properties.Packages[0].KeyId);
                     }
-                    productinfo.Add("WuCategoryID:", dcat.ProductListing.Product.DisplaySkuAvailabilities[0].Sku.Properties.FulfillmentData.WuCategoryId);
+                    productinfo.Add("WuCategoryID", dcat.ProductListing.Product.DisplaySkuAvailabilities[0].Sku.Properties.FulfillmentData.WuCategoryId);
                 }
             }
             return JsonConvert.SerializeObject(productinfo);
