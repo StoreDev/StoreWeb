@@ -5,12 +5,13 @@
     jQuery(document).ready(function () {
 
         jQuery('.ajaxform').submit(function () {
-
+            document.getElementById("submitbtn").disabled = false;
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
                 data: $(this).serialize(),
                 success: function (response) {
+                    document.getElementById("submitbtn").disabled = false;
                     var json = JSON.parse(response);
                     var table = document.getElementById("table");
                     table.getElementsByTagName("tbody")[0].innerHTML = table.rows[0].innerHTML;
@@ -50,7 +51,7 @@
         <label for="productinfo">ID:</label><br>
         <input type="text" id="Id" name="Id"><br>
         <label for="submit">Submit:</label><br>
-        <input type="submit" value="✔" />
+        <input id="submitbtn" type="submit" value="✔" />
     </form>
     <br>
     <table style="width:100%; display:none" id="table">
