@@ -12,7 +12,7 @@
                 type: $(this).attr('method'),
                 data: $(this).serialize(),
                 success: function (response) {
-                    document.getElementById("submitbtn").disabled = true;
+                    document.getElementById("submitbtn").disabled = false;
                     var json = JSON.parse(response);
                     var table = document.getElementById("table");
                     table.getElementsByTagName("tbody")[0].innerHTML = table.rows[0].innerHTML;
