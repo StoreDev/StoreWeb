@@ -8,9 +8,10 @@
         return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
     };
     jQuery(document).ready(function () {
-        document.getElementById("submitbtn").disabled = true;
-        document.body.style.cursor = 'wait'
+
         jQuery('.ajaxform').submit(function () {
+            document.getElementById("submitbtn").disabled = true;
+            document.body.style.cursor = 'wait';
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
