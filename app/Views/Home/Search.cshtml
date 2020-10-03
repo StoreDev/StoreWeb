@@ -6,12 +6,15 @@
     jQuery(document).ready(function () {
 
         jQuery('.ajaxform').submit(function () {
-
+            document.getElementById("submitbtn").disabled = true;
+            document.body.style.cursor = 'wait';
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
                 data: $(this).serialize(),
                 success: function (response) {
+                    document.getElementById("submitbtn").disabled = false;
+                    document.body.style.cursor = 'default';
                     var json = JSON.parse(response);
                     var table = document.getElementById("table");
                     table.getElementsByTagName("tbody")[0].innerHTML = table.rows[0].innerHTML;
@@ -64,7 +67,7 @@
             <option value="WCOS">WCOS</option>
         </select><br>
         <label for="environment">Submit:</label><br>
-        <input type="submit" value="✔" />
+        <input id="submitbtn" type="submit" value="✔" />
     </form>
     <br>
     <table style="width:100%; display:none" id="table">
