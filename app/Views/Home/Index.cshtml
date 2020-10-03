@@ -12,10 +12,12 @@
         jQuery('.ajaxform').submit(function () {
 
             $.ajax({
+                document.getElementById("submitbtn").disabled = true;
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
                 data: $(this).serialize(),
                 success: function (response) {
+                    document.getElementById("submitbtn").disabled = false;
                     var json = JSON.parse(response);
                     var table = document.getElementById("table");
                     table.getElementsByTagName("tbody")[0].innerHTML = table.rows[0].innerHTML;
@@ -67,7 +69,7 @@
             <option value="OnePInt">One P Int</option>
         </select><br>
         <label for="environment">Submit:</label><br>
-        <input type="submit" value="✔" />
+        <input id="sumbitbtn" type="submit" value="✔" />
     </form>
     <br>
     <table style="width:100%; display:none" id="table">
