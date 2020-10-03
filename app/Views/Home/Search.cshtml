@@ -7,12 +7,14 @@
 
         jQuery('.ajaxform').submit(function () {
             document.getElementById("submitbtn").disabled = true;
+            document.body.style.cursor = 'wait';
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
                 data: $(this).serialize(),
                 success: function (response) {
                     document.getElementById("submitbtn").disabled = false;
+                    document.body.style.cursor = 'default';
                     var json = JSON.parse(response);
                     var table = document.getElementById("table");
                     table.getElementsByTagName("tbody")[0].innerHTML = table.rows[0].innerHTML;
