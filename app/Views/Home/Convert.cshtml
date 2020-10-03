@@ -5,7 +5,7 @@
     jQuery(document).ready(function () {
 
         jQuery('.ajaxform').submit(function () {
-            document.getElementById("submitbtn").disabled = false;
+            document.getElementById("submitbtn").disabled = true;
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
