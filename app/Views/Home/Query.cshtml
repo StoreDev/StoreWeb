@@ -13,6 +13,7 @@
                 success: function (response) {
                     var json = JSON.parse(response);
                     var table = document.getElementById("table");
+                    table.getElementsByTagName("tbody")[0].innerHTML = table.rows[0].innerHTML;
                     for (let [key, value] of Object.entries(json)) {
                         var row = table.insertRow(table.rows.length);
                         var cell1 = row.insertCell(0);
