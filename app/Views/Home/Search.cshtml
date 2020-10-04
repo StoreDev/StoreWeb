@@ -26,7 +26,8 @@
                         var cell3 = row.insertCell(2);
                         cell1.innerHTML = obj.title;
                         cell2.innerHTML = obj.type;
-                        cell3.innerHTML = obj.productid;
+                        cell3.innerHTML = '<a href=' + '"' + encodeURI('https://microsoft.com/p/' + obj.title + '/' + obj.productid) + '"' + '>' + obj.productid;
+
                     }
                     document.getElementById("table").style.display = null;
                     
@@ -74,7 +75,7 @@
         <tr>
             <th>Title</th>
             <th>Type</th>
-            <th>Product Id</th>
+            <th>Link</th>
         </tr>
     </table>
 </div>
