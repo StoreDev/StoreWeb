@@ -34,7 +34,10 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Query">Query</a>
                         </li>
-                        
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="FAQ">FAQ</a>
+                        </li>
+
                         <li class="nav-item">
                             @if (!User.Identity.IsAuthenticated)
                             {
@@ -48,11 +51,11 @@
                     </ul>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <h4>You are logged in as: @User.Identity.Name</h4>
+                        <h5>You are logged in as: @User.Identity.Name</h5>
                     }
                     else
                     {
-                        <h4>You are browsing anonymous</h4>
+                        <h5>You are browsing anonymous</h5>
                     }
                 </div>
             </div>
