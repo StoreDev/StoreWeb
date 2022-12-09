@@ -31,7 +31,7 @@ dotnet run -p app
 
 ```
 docker build -t storeweb_docker .
-docker run -e PORT=80 -it --rm -p 80:80 --name storeweb storeweb_docker
+docker run -it --rm -p 80:80 --name storeweb storeweb_docker
 ```
 
 ##### Using docker compose
@@ -47,7 +47,7 @@ docker-compose down
 #### Running latest stable release from Dockerhub
 
 ```
-docker run -e PORT=80 -it --rm -p 80:80 storedev/store-web
+docker run -it --rm -p 80:80 storedev/store-web
 ```
 
 
