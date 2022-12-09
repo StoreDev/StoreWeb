@@ -15,4 +15,6 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 # ENTRYPOINT ["dotnet", "StoreWeb.dll"]
 # heroku uses the following
-CMD ASPNETCORE_URLS=http://*:$PORT dotnet StoreWeb.dll
+CMD ASPNETCORE_URLS=http://*:80 dotnet StoreWeb.dll
+
+EXPOSE 80
