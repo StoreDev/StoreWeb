@@ -2,17 +2,14 @@
 [![GitHub stars](https://img.shields.io/github/stars/StoreDev/StoreWeb?style=social)](https://github.com/StoreDev/StoreWeb)
 [![GitHub Workflow - Docker](https://img.shields.io/github/workflow/status/StoreDev/StoreWeb/docker?label=docker)](https://github.com/StoreDev/StoreWeb/actions?query=workflow%3Adocker)
 [![GitHub Workflow - Build](https://img.shields.io/github/workflow/status/StoreDev/StoreWeb/build?label=build)](https://github.com/StoreDev/StoreWeb/actions?query=workflow%3Abuild)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/StoreDev/StoreWeb/Deploy%20to%20heroku?label=deploy)](https://github.com/StoreDev/StoreWeb/actions?query=workflow%3A%22Deploy+to+heroku%22)
 [![Docker Pulls](https://img.shields.io/docker/pulls/storedev/store-web)](https://hub.docker.com/r/storedev/store-web)
 
 StoreWeb is a webapp that makes use of [StoreLib](https://github.com/StoreDev/StoreLib).
 
-Find an instance of the service here: https://xwebstore.herokuapp.com/
-
 
 ## Usage
 
-Clone the repo and build StoreWeb using either Visual Studio 2019, VS Code or dotnet CLI.
+Clone the repo and build StoreWeb using either Visual Studio 2022, VS Code or dotnet CLI.
 
 ### Build
 
@@ -22,7 +19,7 @@ dotnet build
 
 ### Run
 
-Run StoreWeb.dll using the ASP.NET Core 3.1 runtime
+Run StoreWeb.dll using the ASP.NET 7.0 runtime
 
 ```
 dotnet run -p app
