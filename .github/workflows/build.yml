@@ -9,10 +9,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET Core
+    - name: Setup .NET 7
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '3.1.x'
+        dotnet-version: '7.0.x'
     - name: Install dependencies
       run: dotnet restore
     - name: Build
@@ -21,13 +21,13 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: storeweb-${{ github.sha }}.zip
-        path: app/bin/Release/netcoreapp3.1
+        path: app/bin/Release/net7.0
     - name: Get the version tag
       id: get_tag
       run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
     - name: Generate zip for release
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-      run: zip -j Storeweb-${{ steps.get_tag.outputs.VERSION }}.zip ./app/bin/Release/netcoreapp3.1/*
+      run: zip -j Storeweb-${{ steps.get_tag.outputs.VERSION }}.zip ./app/bin/Release/net7.0/*
     - name: create release
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
       id: create_release
